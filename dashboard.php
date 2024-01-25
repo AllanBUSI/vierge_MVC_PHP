@@ -6,6 +6,9 @@ Autoloader::register();
 $home = new DashboardController();
 $home->HomePage();
 
-$home->Data();
+if (!isset($_SESSION['email'])) {
+    return $home->Data();
+}
+
 
 ?>

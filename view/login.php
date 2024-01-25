@@ -14,6 +14,13 @@
     <div class="container" id="container">
         <div class="form-container sign-up">
             <form action="/dashboard.php" method="POST">
+                <?php 
+                    if (isset($_GET['error'])) {
+                        echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Erreur de connexion!</strong> '.$_GET['error']. '</div>';
+                    }
+                ?>
+
                 <h1>Create Account</h1>
                 <div class="social-icons">
                     <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
@@ -31,6 +38,12 @@
         </div>
         <div class="form-container sign-in">
             <form action="/dashboard.php" method="POST">
+                <?php 
+                    if (isset($_GET['error'])) {
+                        echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Erreur de connexion!</strong> '.$_GET['error']. '</div>';
+                    }
+                ?>
                 <h1>Sign In</h1>
                 <div class="social-icons">
                     <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 class DashboardController {
     
@@ -11,25 +12,57 @@ class DashboardController {
 
     public function Data() {
 
-        if ($_POST['type'] == 'register') {
-
+        if (isset($_SESSION['email'])) {
+            return;
         }
 
+        if (!isset($_POST['type']) && !isset($_POST['nom'])  &&  !isset($_POST['email'])) {
+            $this->SendError("Veuillez vous connecter");
+        }
+
+        if ($_POST['type'] == 'register') {            
+            $this->Register();
+        }
+        
         if ($_POST['type'] == 'login') {
-            
+            $this->Login();
         }
+
+        $_SESSION['user'] = $_POST['email'];
+    }
+
+
+    public function SendError($msg) {
+        return header('Location: http://localhost:8080/login.php?error='.$msg);
+    }
+
+    public function VerifVariable($var, $min, $max, $msg) {
+        if (strlen($var) <= $min || strlen($var) >= $max) {
+            $this->SendError($msg);
+            return;
+        }
+        return;
+    }
+
+    public function Register() {
+        $nom  = htmlspecialchars($_POST['nom']);
+        $email  = htmlspecialchars($_POST['email']);
+        $password  = $_POST['password'];
+        
+        $this->VerifVariable($nom, 2,254, 'Le nom est incorrecte');
+        $this->VerifVariable($email, 2,254, "L'email est incorrecte");
+        $this->VerifVariable($password, 2,254, "Le passowrd est incorrecte");
 
         return;
     }
 
-    // hearder('?error=utilisation a un mauvais mot de passe')
-
-    public function Register() {
-
-    }
-
     public function Login() {
-
+        $email  = htmlspecialchars($_POST['email']);
+        $password  = $_POST['password'];
+        
+        $this->VerifVariable($email, 2,254, "L'email est incorrecte");
+        $this->VerifVariable($password, 2,254, "Le passowrd est incorrecte");
+        return;
     }
 
 }
