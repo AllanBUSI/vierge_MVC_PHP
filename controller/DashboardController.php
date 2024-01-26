@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 require './model/User.php';
 
 class DashboardController {
@@ -8,6 +6,7 @@ class DashboardController {
     public function HomePage() {
         require './view/header.php';
         require './view/navbar.php';
+        require './view/profile.php';
         require './view/footer.php';
         return;
     }
@@ -39,9 +38,23 @@ class DashboardController {
         
         if ($_POST['type'] == 'login') {
             $this->Login();
+
+            $user = new User('', $_POST['email'], $_POST['password']);
+
+            $result = $user->FindByEmail('*');
+
+            if (count($result) <= 0) {
+                return $this->SendError("Email ou mot de passe incorrecte");
+            }
+
+            $hash = password_verify($_POST['password'], $result[0]["password"]);
+
+            if (!$hash) {
+                return $this->SendError("Email ou mot de passe incorrecte");
+            }
         }
 
-        $_SESSION['user'] = $_POST['email'];
+        $_SESSION['user'] = $result;
     }
 
 

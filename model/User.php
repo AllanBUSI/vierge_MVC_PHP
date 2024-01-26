@@ -12,7 +12,7 @@ class User extends Database {
     public function __construct($name, $email, $password) {
         $this->name = $name;
         $this->email = $email;
-        $this->password = password_hash($password, PASSWORD_ARGON2ID);
+        $this->password = $password;
         $this->pdo = parent::Connect();
     }
 
@@ -37,7 +37,7 @@ class User extends Database {
     }
 
     public function setPassword($password) {
-        return $this->password = password_hash($password, PASSWORD_ARGON2ID);
+        return $this->password = $password;
     }
 
     public function FindByEmail($colums = "*") {
@@ -48,7 +48,7 @@ class User extends Database {
 
         $query->execute([$this->email]);
 
-        $query = $query->fetchAll();
+        $query = $query->fetchAll(PDO::FETCH_ASSOC);
 
         return $query;
     }
@@ -60,7 +60,7 @@ class User extends Database {
 
         $query->execute([]);
 
-        $query = $query->fetchAll();
+        $query = $query->fetchAll(PDO::FETCH_ASSOC);
 
         return $query;
     }
@@ -74,9 +74,9 @@ class User extends Database {
 
         $query = $this->pdo->prepare($sql);
 
-        $query->execute([$this->name, $this->email, $this->password]);
+        $query->execute([$this->name, $this->email, password_hash($password, PASSWORD_ARGON2ID)]);
 
-        $query = $query->fetchAll();
+        $query = $query->fetchAll(PDO::FETCH_ASSOC);
 
         return $query;
     }
