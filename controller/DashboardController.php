@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+require './model/User.php';
+
 class DashboardController {
     
     public function HomePage() {
@@ -17,11 +19,22 @@ class DashboardController {
         }
 
         if (!isset($_POST['type']) && !isset($_POST['nom'])  &&  !isset($_POST['email'])) {
-            $this->SendError("Veuillez vous connecter");
+            return $this->SendError("Veuillez vous connecter");
         }
 
         if ($_POST['type'] == 'register') {            
             $this->Register();
+
+            $user = new User($_POST['nom'], $_POST['email'], $_POST['password']);
+
+            $result = $user->FindByEmail('email');
+
+            if (count($result) > 0) {
+                return $this->SendError("Vous êtes déjà inscrit");
+            }
+
+            $user->CreateByOne();
+
         }
         
         if ($_POST['type'] == 'login') {
@@ -43,6 +56,7 @@ class DashboardController {
         }
         return;
     }
+
 
     public function Register() {
         $nom  = htmlspecialchars($_POST['nom']);

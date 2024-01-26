@@ -20,6 +20,9 @@ class Autoloader{
         require './controller/' . $class . '.php';
     }
 
+    static function loadenv() {
+        return parse_ini_file('.env');
+    }
 }
 
 ?>
