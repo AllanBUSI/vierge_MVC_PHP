@@ -6,6 +6,6 @@
     <title>Document</title>
 </head>
 <body>
-    404 tes null
+    <h1>404</h1>
 </body>
 </html>
