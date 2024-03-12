@@ -67,7 +67,6 @@ class DashboardController {
             }
             
             try {
-                var_dump($user->getEmail());
                 $user->CreateByOne();
                 return;
             } catch (\Exception $e) {
