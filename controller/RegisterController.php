@@ -1,27 +1,23 @@
 <?php
 
-class HomeController {
+class RegisterController {
     
-    public function HomePage() {
+    public function RegisterPage() {
 
         // load css link
         $arrayCSS = [
-            "./style/map.css",
             "./style/style.css",
         ];
 
-        $arrayJS = [
-            "./js/map.js",
-        ];
+        $arrayJS = [];
 
         require './view/header.php';
         require './view/navbar.php';
-        require './view/Container.php';
-        require './view/Map.php';
+        require './view/Register.php';
         require './view/footer.php';
+
         return;
     }
-
 }
 
 ?>
